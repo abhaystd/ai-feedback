@@ -74,16 +74,18 @@ export async function POST(req: NextRequest) {
       feedback = JSON.parse(cleanedJson);
     } catch (parseErr) {
       console.warn("[WARN] Failed to parse LLM output:", text);
+      console.log(parseErr);
+      
       feedback = { scores: {}, overallFeedback: "", observation: "" };
     }
 
     console.log("[INFO] Feedback received from OpenRouter");
     console.log("[INFO] Feedback:", feedback);
     return NextResponse.json(feedback);
-  } catch (err: any) {
-    console.error("[ERROR]", err.message);
+  } catch (err) {
+    console.error("[ERROR]", err);
     return NextResponse.json(
-      { error: err.message || "Unexpected error" },
+      { error: err|| "Unexpected error" },
       { status: 500 }
     );
   }

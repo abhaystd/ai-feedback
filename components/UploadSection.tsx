@@ -50,8 +50,12 @@ export default function UploadSection() {
         throw new Error('Invalid response received.');
       }
       setResult(data);
-    } catch (err: any) {
-      setError(err.message || 'Unexpected error occurred.');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Unexpected error occurred.');
+      }
     } finally {
       setProcessing(false);
     }
